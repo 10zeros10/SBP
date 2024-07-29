@@ -1,1 +1,1 @@
-# SBP
+The SBP project is a backend server built with Node.js and Express designed to manage posts and user accounts efficiently. It also includes WebSocket communication for real-time updates, providing a seamless and interactive user experience. This server serves as the backbone for applications that require user interactions and live data updates.
