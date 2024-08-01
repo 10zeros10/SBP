@@ -54,7 +54,13 @@ app.post('/posts', (req, res) => {
 
 app.get('/posts', (req, res) => {
   try {
-    res.status(200).send(posts);
+    const { authorId } = req.query;
+    if (authorId) {
+      const filteredPosts = posts.filter(post => post.authorId == authorId);
+      res.status(200).send(filteredPosts);
+    } else {
+      res.status(200).send(posts);
+    }
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
