@@ -3,59 +3,43 @@ require('dotenv').config();
 
 const BLOG_POSTS_API_BASE_URL = process.env.BLOG_POSTS_API_URL;
 
-const createBlogPost = async (postDetails) => {
+const doFetchRequest = async (url, options = {}) => {
   try {
-    const response = await fetch(`${BLOG_POSTS_API_BASE_URL}/posts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postDetails),
-    });
-    return await response.json();
+    const response = await fetch(url, options);
+    return await response.json(); 
   } catch (error) {
-    console.error('Error creating blog post:', error);
+    console.error(`Error performing the request: ${error}`);
+    throw error; 
   }
 };
 
-const fetchBlogPosts = async (postId = '') => {
-  try {
-    const response = await fetch(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching blog posts:', error);
-  }
+const createBlogPost = (postDetails) => {
+  return doFetchRequest(`${BLOG_POSTS_API_BASE_URL}/posts`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postDetails),
+  });
 };
 
-const updateBlogPost = async (postId, postUpdates) => {
-  try {
-    const response = await fetch(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postUpdates),
-    });
-    return await response.json();
-  } catch (error) {
-    console.error('Error updating blog post:', error);
-  }
+const fetchBlogPosts = (postId = '') => {
+  return doFetchRequest(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  });
 };
 
-const deleteBlogPost = async (postId) => {
-  try {
-    const response = await fetch(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
-      method: 'DELETE',
-    });
-    return await response.json();
-  } catch (error) {
-    console.error('Error deleting blog post:', error);
-  }
+const updateBlogPost = (postId, postUpdates) => {
+  return doFetchRequest(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postUpdates),
+  });
+};
+
+const deleteBlogPost = (postId) => {
+  return doFetchRequest(`${BLOG_POSTS_API_BASE_URL}/posts/${postId}`, {
+    method: 'DELETE',
+  });
 };
 
 module.exports = {
