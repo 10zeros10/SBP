@@ -2,8 +2,11 @@ const WebSocket = require('ws');
 require('dotenv').config();
 
 let wss;
+
+const serverPort = process.env.WS_PORT || 8080;
+
 try {
-  wss = new WebSocket.Server({ port: process.env.WS_PORT || 8080 });
+  wss = new WebSocket.Server({ port: serverPort });
 } catch (error) {
   console.error(`Failed to start the WebSocket server: ${error.message}`);
   process.exit(1);
@@ -52,7 +55,7 @@ const setupWebSocketServer = () => {
     }
   });
 
-  console.log(`WebSocket server started on port ${process.env.WS_PORT || 8080}`);
+  console.log(`WebSocket server started on port ${serverPort}`);
 };
 
 const synchronizePosts = (postContent) => {
